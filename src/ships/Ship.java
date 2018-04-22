@@ -1,4 +1,6 @@
-package objects;
+package ships;
+
+import board.Tile;
 
 public abstract class Ship {
 	
@@ -6,6 +8,7 @@ public abstract class Ship {
 	protected int size;
 	protected boolean vertical;
 	protected boolean sunk;
+	protected Tile[] tiles;
 	
 	public Ship() {
 		vertical = true;
@@ -24,7 +27,7 @@ public abstract class Ship {
 		return vertical;
 	}
 	
-	public void changeOrientation() {
+	public void rotate() {
 		vertical = !vertical;
 	}
 	
@@ -44,6 +47,13 @@ public abstract class Ship {
 		sunk = true;
 	}
 	
-	public abstract boolean isDestroyed();
-
+	public boolean isDestroyed() {
+		for (Tile t : tiles) {
+			if (!t.isSunk())
+				return false;
+		}
+		return true;
+	}
+	
+	
 }
