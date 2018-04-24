@@ -1,14 +1,11 @@
 package ships;
 
-import board.Tile;
-
 public abstract class Ship {
 	
 	protected String type;
-	protected int size;
 	protected boolean vertical;
 	protected boolean sunk;
-	protected Tile[] tiles;
+	protected Cell[] cells;
 	
 	public Ship() {
 		vertical = true;
@@ -20,7 +17,7 @@ public abstract class Ship {
 	}
 	
 	public int getSize() {
-		return size;
+		return cells.length;
 	}
 	
 	public boolean isVertical() {
@@ -45,14 +42,6 @@ public abstract class Ship {
 	
 	public void sink() {
 		sunk = true;
-	}
-	
-	public boolean isDestroyed() {
-		for (Tile t : tiles) {
-			if (!t.isSunk())
-				return false;
-		}
-		return true;
 	}
 	
 	

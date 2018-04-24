@@ -1,12 +1,12 @@
-package board;
+package ships;
 
-public class Tile {
+public class Cell {
 	
 	private boolean sunk;
 	private String x;
 	private String y;
 	
-	public Tile() {
+	public Cell() {
 		sunk = false;
 	}
 	

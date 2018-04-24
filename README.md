@@ -2,3 +2,5 @@
 ## Battleship Game
 
 Final Project for CSE 160: Computer Science A: Honors
+
+Created using JavaFX
