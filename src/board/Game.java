@@ -171,6 +171,7 @@ public class Game extends Application {
 								if (playerStatus.selected && validHorizontalPlacement(row, col)) {
 									for (int i = col; i < col + currentShipSize; i++) {
 										playerBoard.grid[row][i].place();
+										playerBoard.cells++;
 									}
 									playerStatus.ships[currentShipRow].place();
 									playerStatus.selected = false;
@@ -180,6 +181,7 @@ public class Game extends Application {
 								if (playerStatus.selected && validVerticalPlacement(row, col)) {
 									for (int i = row; i < row + currentShipSize; i++) {
 										playerBoard.grid[i][col].place();
+										playerBoard.cells++;
 									}
 									playerStatus.ships[currentShipRow].place();
 									playerStatus.selected = false;
@@ -207,8 +209,10 @@ public class Game extends Application {
 							}
 							else if (opponentBoard.grid[row][col].isPlaced()) {
 								opponentBoard.grid[row][col].attack();
+								opponentBoard.cells--;
 								System.out.println("Hit!");
 								System.out.println("Keep attacking\n");
+								checkWinner();
 							}
 							else {
 								opponentBoard.grid[row][col].attack();
@@ -275,6 +279,7 @@ public class Game extends Application {
 			for (int j = 0; j < opponentBoard.grid[i].length; j++) {
 				if (computer.getSelfGrid()[i][j]) {
 					opponentBoard.grid[i][j].place();
+					opponentBoard.cells++;
 				}
 			}
 		}
@@ -283,10 +288,11 @@ public class Game extends Application {
 	
 	public void opponentAttack() {
 		int[] coordinates;
-		while (!playerTurn) {
+		while (!planning && !playerTurn) {
 			coordinates = computer.attack();
 			if (playerBoard.grid[coordinates[0]][coordinates[1]].isPlaced()) {
 				playerBoard.grid[coordinates[0]][coordinates[1]].attack();
+				playerBoard.cells--;
 				System.out.println("Hit!");
 				System.out.println("Opponent keeps attacking\n");
 			}
@@ -300,7 +306,31 @@ public class Game extends Application {
 	}
 	
 	public void checkWinner() {
-		
+		if (opponentBoard.cells <= 0) {
+			planning = true;
+			win = true;
+			endScreen();
+		}
+		else if (playerBoard.cells <= 0) {
+			planning = true;
+			lose = true;
+			endScreen();
+		}
+	}
+	
+	public void endScreen() {
+		if (win) {
+			System.out.println("Player has won!");
+			for (int i = 0; i < opponentStatus.pieces.length; i++) {
+				opponentStatus.pieces[i].destroy();
+			}
+		}
+		else if (lose) {
+			System.out.println("Opponent has won!");
+			for (int i = 0; i < playerStatus.pieces.length; i++) {
+				playerStatus.pieces[i].select();
+			}
+		}
 	}
 	
 }

@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 public class BoardPane extends GridPane {
 	
 	Cell[][] grid;
+	int cells = 0;
 	
 	public BoardPane() {
 		setPadding(new Insets(5));
