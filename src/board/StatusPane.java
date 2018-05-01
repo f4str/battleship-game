@@ -3,14 +3,14 @@ package board;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.*;
 import javafx.scene.control.*;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.paint.Color;
 import ships.*;
+
 
 public class StatusPane extends GridPane {
 	
 	Ship[] ships;
-	Rectangle[] display;
+	Piece[] pieces;
+	boolean selected;
 	
 	public StatusPane() {
 		setPadding(new Insets(5));
@@ -22,6 +22,7 @@ public class StatusPane extends GridPane {
 		ships[2] = new Cruiser();
 		ships[3] = new Submarine();
 		ships[4] = new Destroyer();
+		selected = false;
 		addLabels();
 		drawShips();
 		addShips();
@@ -35,19 +36,15 @@ public class StatusPane extends GridPane {
 	}
 	
 	public void drawShips() {
-		display = new Rectangle[5];
+		pieces = new Piece[5];
 		for (int i = 0; i < ships.length; i++) {
-			display[i] = new Rectangle();
-			display[i].setHeight(20);
-			display[i].setWidth(20 * ships[i].getSize());
-			display[i].setStroke(Color.BLACK);
-			display[i].setFill(Color.GREY);
+			pieces[i] = new Piece(20, ships[i].getSize());
 		}
 	}
 	
 	public void addShips() {
 		for (int i = 0; i < ships.length; i++) {
-			Rectangle space = display[i];
+			Piece space = pieces[i];
 			GridPane.setRowIndex(space, i);
 	        GridPane.setColumnIndex(space, 1);
 	        GridPane.setHalignment(space, HPos.RIGHT);
@@ -58,7 +55,7 @@ public class StatusPane extends GridPane {
 	public void updateShips() {
 		for (int i = 0; i < ships.length; i++) {
 			if (ships[i].isSunk()) {
-				
+				pieces[i].destroy();
 			}
 		}
 	}

@@ -4,7 +4,7 @@ public class Submarine extends Ship {
 
 	public Submarine() {
 		type = "Submarine";
-		cells = new Cell[3];
+		size = 3;
 	}
 	
 }

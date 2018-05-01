@@ -4,7 +4,7 @@ public class Carrier extends Ship {
 	
 	public Carrier() {
 		type = "Carrier";
-		cells = new Cell[5];
+		size = 5;
 	}
 
 }

@@ -3,12 +3,14 @@ package ships;
 public abstract class Ship {
 	
 	protected String type;
+	protected boolean placed;
 	protected boolean vertical;
 	protected boolean sunk;
-	protected Cell[] cells;
+	protected int size;
 	
 	public Ship() {
 		vertical = true;
+		placed = false;
 		sunk = false;
 	}
 	
@@ -17,7 +19,19 @@ public abstract class Ship {
 	}
 	
 	public int getSize() {
-		return cells.length;
+		return size;
+	}
+	
+	public boolean isPlaced() {
+		return placed;
+	}
+	
+	public void place() {
+		placed = true;
+	}
+	
+	public void remove() {
+		placed = false;
 	}
 	
 	public boolean isVertical() {
