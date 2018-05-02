@@ -58,9 +58,5 @@ public class BoardPane extends GridPane {
 			}
 		}
 	}
-	
-	public void attack(int row, int col) {
-		
-	}
 
 }

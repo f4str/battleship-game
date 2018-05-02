@@ -70,7 +70,9 @@ public class Game extends Application {
 	
 	public void createHeadings() {
 		playerLabel = new Label("Player");
+		playerLabel.setStyle("-fx-font: 24 calibri;");
 		opponentLabel = new Label("Opponent");
+		opponentLabel.setStyle("-fx-font: 24 calibri;");
 		
 		GridPane.setHalignment(playerLabel, HPos.CENTER);
 		GridPane.setHalignment(opponentLabel, HPos.CENTER);
@@ -82,7 +84,9 @@ public class Game extends Application {
 	
 	public void createShipsLabels() {
 		playerShipsLabel = new Label("Ships");
+		playerShipsLabel.setStyle("-fx-font: 18 calibri;");
 		opponentShipsLabel = new Label("Ships");
+		opponentShipsLabel.setStyle("-fx-font: 18 calibri;");
 		
 		GridPane.setHalignment(playerShipsLabel, HPos.CENTER);
 		GridPane.setHalignment(opponentShipsLabel, HPos.CENTER);
@@ -210,12 +214,14 @@ public class Game extends Application {
 							else if (opponentBoard.grid[row][col].isPlaced()) {
 								opponentBoard.grid[row][col].attack();
 								opponentBoard.cells--;
+								System.out.println((char)('A' + col) + "" + (row + 1));
 								System.out.println("Hit!");
 								System.out.println("Keep attacking\n");
 								checkWinner();
 							}
 							else {
 								opponentBoard.grid[row][col].attack();
+								System.out.println((char)('A' + col) + "" + (row + 1));
 								System.out.println("Miss!");
 								System.out.println("Opponent's turn\n");
 								playerTurn = false;
@@ -287,17 +293,26 @@ public class Game extends Application {
 	}
 	
 	public void opponentAttack() {
-		int[] coordinates;
 		while (!planning && !playerTurn) {
-			coordinates = computer.attack();
-			if (playerBoard.grid[coordinates[0]][coordinates[1]].isPlaced()) {
-				playerBoard.grid[coordinates[0]][coordinates[1]].attack();
+			computer.attack();
+			System.out.println((char)('A' + computer.getCol()) + "" + (computer.getRow() + 1));
+			if (playerBoard.grid[computer.getRow()][computer.getCol()].isPlaced()) {
+				playerBoard.grid[computer.getRow()][computer.getCol()].attack();
 				playerBoard.cells--;
+				computer.hit();
 				System.out.println("Hit!");
 				System.out.println("Opponent keeps attacking\n");
+				checkWinner();
+				try {
+					Thread.sleep(100);
+				}
+				catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 			else {
-				playerBoard.grid[coordinates[0]][coordinates[1]].attack();
+				playerBoard.grid[computer.getRow()][computer.getCol()].attack();
+				computer.miss();
 				System.out.println("Miss!");
 				System.out.println("Player's turn\n");
 				playerTurn = true;
@@ -328,7 +343,7 @@ public class Game extends Application {
 		else if (lose) {
 			System.out.println("Opponent has won!");
 			for (int i = 0; i < playerStatus.pieces.length; i++) {
-				playerStatus.pieces[i].select();
+				playerStatus.pieces[i].destroy();
 			}
 		}
 	}
