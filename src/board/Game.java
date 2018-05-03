@@ -284,7 +284,7 @@ public class Game extends Application {
 		for (int i = 0; i < opponentBoard.grid.length; i++) {
 			for (int j = 0; j < opponentBoard.grid[i].length; j++) {
 				if (computer.getSelfGrid()[i][j]) {
-					opponentBoard.grid[i][j].place();
+					opponentBoard.grid[i][j].placeHidden();
 					opponentBoard.cells++;
 				}
 			}
